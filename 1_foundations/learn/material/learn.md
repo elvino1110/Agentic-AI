@@ -73,3 +73,38 @@ Human will give the request, LLM will able to take action from the environemnt a
 # Risks of Agent Frameworks
 
 ![alt text](image-6.png)
+
+# Agentic AI Frameworks
+
+![alt text](image-7.png)
+
+# Two ways to enhance LLM Capabilities in Agentic AI
+
+## 1. Resource
+
+We can provide an LLM with resources to **improve its expertise**
+
+Basically, this just means **shoving data** relevant to the question into the prompt 
+
+There are techniques like RAG to get really smart at picking **relevant content**
+
+## 2. Tools
+
+Tools are the heart of Agentic AI to give the power to do something
+
+We can give the LLM power to carry out actions like **query database** or **message other LLMs**
+
+Sounds **spooky**, right? OpenAI can reach into my computer?
+
+The reality is a bit **mundane**
+
+### Tool Calling - in Theory
+
+An LLM can reach into my computer
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+So basically, we ask LLM to do something based on the tools that we have. For example, I have tool to get query my product.
+So when I ask about the product the LLM will execute the tool and parse my product to the tool to get the query and give the information again to the LLM for answering the question
