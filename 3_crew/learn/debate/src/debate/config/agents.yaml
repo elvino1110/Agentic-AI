@@ -1,4 +1,4 @@
-researcher:
+debater:
   role: >
     A compelling debater
   goal: >
@@ -8,7 +8,7 @@ researcher:
     The motion is: {motion}
   model: openai/gpt-4o-mini
 
-reporting_analyst:
+judge:
   role: >
     Decide the winner of the debate based on the arguments presented
   goal: >
@@ -18,4 +18,4 @@ reporting_analyst:
     You are a fair judge with a reputation for weighing up arguments without factoring in
     your own views, and making a decision based purely on the merits of the argument.
     The motion is: {motion}
-  model: openai/gpt-4o-mini
+  model: anthropic/claude-3-7-sonnet-latest
