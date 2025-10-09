@@ -1,0 +1,31 @@
+﻿ID,Nama Kerusakan,Gejala,Jenis Servis,Deskripsi,Estimasi Biaya,Estimasi Waktu,Kategori Kerusakan
+1,Knalpot Bocor,Suara bising dari knalpot; Kebocoran asap dan gas berlebihan,Penggantian atau Penambahan Isolasi Knalpot,Mengganti komponen knalpot atau menambahkan lapisan untuk mengurangi kebocoran,Rp150.000-300.000,30-45 menit,Rendah
+2,Rem Tidak Pakem,Rem terasa tidak pakem; Kendaraan lebih sulit berhenti,Perbaikan Sistem Rem,Mengganti kampas rem atau perbaikan master rem yang tidak berfungsi dengan baik,Rp300.000-600.000,1-2 jam,Sedang
+3,Mesin Brebet,Mesin bergetar saat dihidupkan; Akselerasi lambat,Perbaikan Mesin atau Penggantian Komponen,Perbaikan komponen mesin yang rusak atau penggantian komponen internal,Rp250.000-500.000,2-4 jam,Berat
+4,Aki Soak,Lampu indikator aki menyala; Aki tidak dapat mengisi daya,Penggantian Aki,Mengganti aki kendaraan yang sudah soak atau tidak dapat menyimpan daya,Rp200.000-500.000,30-60 menit,Rendah
+5,Kabel Kelistrikan Putus,Lampu atau klakson tidak berfungsi; Sistem kelistrikan mati total,Perbaikan atau Penggantian Kabel Kelistrikan,Memperbaiki atau mengganti kabel kelistrikan yang putus atau konslet,Rp150.000-300.000,1-2 jam,Sedang
+6,Busi Rusak,Suara mesin tidak halus; Akselerasi terasa berat,Penggantian Busi,Mengganti busi yang sudah aus atau bermasalah dalam pengapian,Rp100.000-250.000,30 menit,Rendah
+7,Sistem Pengapian Bermasalah,Mesin sulit dinyalakan; Tanda-tanda percikan api dari kabel pengapian,Perbaikan Sistem Pengapian,Perbaikan pada sistem pengapian termasuk pengecekan kabel dan coil,Rp200.000-400.000,1-2 jam,Sedang
+8,Karburator Kotor,Motor sulit hidup; Konsumsi bahan bakar meningkat,Pembersihan Karburator atau Penggantian,Membersihkan karburator atau mengganti komponen karburator yang rusak,Rp300.000-700.000,2-3 jam,Sedang
+9,Ban Kempes,Ban terasa kempes atau tidak stabil saat dikendarai,Penggantian Ban,Mengganti ban yang kempes atau sudah aus,Rp400.000-800.000,30-60 menit,Rendah
+10,Rantai Longgar,Rantai sering lepas atau berisik,Pengetatan atau Penggantian Rantai,Mengganti atau memperbaiki rantai agar berfungsi dengan baik,Rp300.000-700.000,30-60 menit,Rendah
+11,Pemutar Starter Rusak,Motor tidak bisa dinyalakan; Tidak ada suara saat starter ditekan,Perbaikan atau Penggantian Starter,Memperbaiki atau mengganti pemutar starter yang rusak,Rp200.000-400.000,1-2 jam,Sedang
+12,Rem Tercium Bau Terbakar,Bau terbakar saat pengereman,Perbaikan Sistem Rem,Memeriksa sistem rem dan mengganti komponen yang terbakar atau aus,Rp200.000-500.000,1-2 jam,Sedang
+13,Suspensi Depan Rusak,Kendaraan terasa goyang saat melaju,Perbaikan atau Penggantian Suspensi,Memperbaiki atau mengganti suspensi depan yang aus atau rusak,Rp400.000-800.000,1-2 jam,Sedang
+14,Filter Udara Kotor,Mesin terasa tersendat; Konsumsi bahan bakar boros,Pembersihan atau Penggantian Filter Udara,Membersihkan atau mengganti filter udara yang kotor,Rp100.000-250.000,30 menit,Rendah
+15,Olip Filter Bocor,Minyak rem atau oli bocor; Ada genangan oli di bawah kendaraan,Perbaikan atau Penggantian Filter Oli,Mengganti filter oli yang bocor atau rusak,Rp150.000-350.000,1 jam,Sedang
+16,Air Radiator Berkurang,Mesin cepat panas; Ada kebocoran pada sistem pendingin,Perbaikan atau Pengisian Radiator,Mengecek dan memperbaiki kebocoran sistem pendingin serta mengisi radiator,Rp200.000-500.000,1-2 jam,Sedang
+17,Transmisi Terkunci,Perpindahan gigi terasa berat atau terkunci,Perbaikan Sistem Transmisi,Mengganti atau memperbaiki sistem transmisi yang bermasalah,Rp500.000-1.000.000,2-3 jam,Berat
+18,Starter Motor Terlalu Lama,Motor memerlukan waktu lebih lama untuk dinyalakan,Perbaikan Starter,Memperbaiki sistem starter motor agar lebih responsif,Rp150.000-300.000,1 jam,Sedang
+19,Clutch Terasa Berat,Perpindahan gigi terasa keras dan berat,Perbaikan atau Penggantian Kopling,Memperbaiki atau mengganti komponen kopling yang aus,Rp250.000-600.000,1-2 jam,Sedang
+20,Ac Motor Tidak Dingin,AC tidak menghasilkan udara dingin,Perbaikan atau Pengisian Freon,Memperbaiki atau mengisi ulang freon pada sistem AC kendaraan,Rp200.000-400.000,1-2 jam,Sedang
+21,Kendaraan Menarik Ke Kiri,Stir kendaraan terasa berat ke kiri,Perbaikan Sistem Kemudi,Mengecek dan memperbaiki sistem kemudi dan roda kendaraan,Rp300.000-600.000,1-2 jam,Sedang
+22,Knock Engine,Mesin mengeluarkan suara keras atau bergetar,Perbaikan Mesin,Perbaikan mesin atau penggantian komponen mesin yang bermasalah,Rp400.000-800.000,2-3 jam,Berat
+23,Overheating Mesin,Suhu mesin terlalu tinggi; Lampu indikator panas menyala,Perbaikan Sistem Pendingin,Memperbaiki sistem pendingin atau mengganti komponen yang rusak,Rp500.000-1.000.000,2-3 jam,Berat
+24,Sensor Abs Rusak,Lampu indikator ABS menyala; Rem terasa tidak stabil,Perbaikan atau Penggantian Sensor ABS,Mengganti atau memperbaiki sensor ABS yang rusak,Rp250.000-600.000,1-2 jam,Sedang
+25,Kaki-Kaki Terasa Getar,Terasa getaran saat melaju dengan kecepatan tinggi,Perbaikan Suspensi atau Ban,Memperbaiki suspensi atau mengganti ban yang rusak,Rp300.000-600.000,1-2 jam,Sedang
+26,Gigi Roda Terlalu Kasar,Suara berisik saat kendaraan berjalan; Perpindahan gigi terasa kasar,Perbaikan atau Penggantian Gigi Transmisi,Mengganti gigi transmisi yang aus atau bermasalah,Rp400.000-800.000,2-3 jam,Berat
+27,Ban Pecah,Kendaraan tiba-tiba berhenti karena ban pecah,Penggantian Ban,Mengganti ban yang pecah atau rusak,Rp300.000-700.000,30-60 menit,Rendah
+28,Pengereman Tidak Merata,Rem terasa lebih kuat di satu sisi,Perbaikan Sistem Rem,Mengganti atau memperbaiki sistem rem untuk meratakan pengereman,Rp250.000-600.000,1-2 jam,Sedang
+29,Kendaraan Makan Bahan Bakar Lebih Banyak,Mesin terasa tidak efisien; Konsumsi bahan bakar meningkat,Pembersihan Karburator atau Penggantian Sensor,Membersihkan atau mengganti komponen karburator atau sensor bahan bakar,Rp250.000-500.000,1-2 jam,Sedang
+30,Kipas Radiator Tidak Berfungsi,Mesin menjadi terlalu panas; Lampu indikator suhu mesin menyala,Perbaikan atau Penggantian Kipas Radiator,Memperbaiki atau mengganti kipas radiator yang tidak berfungsi,Rp300.000-600.000,1-2 jam,Sedang
