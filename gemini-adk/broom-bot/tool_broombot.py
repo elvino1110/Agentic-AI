@@ -1,7 +1,7 @@
 from .embed_data import QdrantEmbedGemini
 from .Database import BroomBotDatabase
 from .LeadDatabase import LeadAnalysisDatabase
-
+from google.adk.tools.tool_context import ToolContext
 
 class BroomBotTools:
     """Class to manage BroomBot tools for product and service searches."""
@@ -166,7 +166,7 @@ class BroomBotTools:
         except Exception as e:
             return f"Error checking technician availability: {str(e)}"
 
-    def book_service_tool(self, customer_name: str, customer_plate_number: str, technician_name: str, dealer_name: str, start_time: str, end_time: str) -> str:
+    def book_service_tool(self, customer_name: str, customer_plate_number: str, technician_name: str, dealer_name: str, start_time: str, end_time: str, tool_context: ToolContext) -> str:
         """
         Book a service appointment.
 
@@ -181,6 +181,14 @@ class BroomBotTools:
         Returns:
             str: Booking confirmation with booking code
         """
+
+        tool_confirmation = tool_context.tool_confirmation
+        if not tool_confirmation:
+            tool_context.request_confirmation(
+                hint=(
+                    'Please approve or reject the booking'
+                )
+            )
         try:
             result = self.database.insert_booking_from_tool(
                 customer_name=customer_name,
@@ -217,8 +225,10 @@ class BroomBotTools:
                     📅 Start Time: {result['start_time']}
                     ⏰ End Time: {result['end_time']}
                     📊 Status: {result['status']}
-                    🔧 Technician ID: {result['id_technician']}
-                    🏢 Dealer ID: {result['id_dealer']}
+                    🔧 Technician: {result['technician_name']}
+                    🏢 Dealer: {result['dealer_name']}
+                    📍 Dealer Address: {result['dealer_address']}
+                    📞 Dealer Phone: {result['dealer_phone']}
                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 """
                 return formatted

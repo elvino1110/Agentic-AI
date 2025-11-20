@@ -12,67 +12,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from typing import Any
+
 from google.adk import Agent
-from google.adk.tools.function_tool import FunctionTool
+from google.adk.tools.long_running_tool import LongRunningFunctionTool
 from google.adk.tools.tool_context import ToolContext
 from google.genai import types
 
 
-def reimburse(amount: int, tool_context: ToolContext) -> str:
-  """Reimburse the employee for the given amount."""
-  return {'status': 'ok'}
-
-
-def request_time_off(days: int, tool_context: ToolContext):
-  """Request day off for the employee."""
-  if days <= 0:
-    return {'status': 'Invalid days to request.'}
-
-  if days <= 2:
-    return {
-        'status': 'ok',
-        'approved_days': days,
-    }
-
-  tool_confirmation = tool_context.tool_confirmation
-  if not tool_confirmation:
-    tool_context.request_confirmation(
-        hint=(
-            'Please approve or reject the tool call request_time_off() by'
-            ' responding with a FunctionResponse with an expected'
-            ' ToolConfirmation payload.'
-        ),
-        payload={
-            'approved_days': 0,
-        },
-    )
-    return {'status': 'Manager approval is required.'}
-
-  approved_days = tool_confirmation.payload['approved_days']
-  approved_days = min(approved_days, days)
-  if approved_days == 0:
-    return {'status': 'The time off request is rejected.', 'approved_days': 0}
+def reimburse(purpose: str, amount: float) -> str:
+  """Reimburse the amount of money to the employee."""
   return {
       'status': 'ok',
-      'approved_days': approved_days,
+  }
+
+
+def ask_for_approval(
+    purpose: str, amount: float, tool_context: ToolContext
+) -> dict[str, Any]:
+  """Ask for approval for the reimbursement."""
+  return {
+      'status': 'pending',
+      'amount': amount,
+      'ticketId': 'reimbursement-ticket-001',
   }
 
 
 root_agent = Agent(
     model='gemini-2.5-flash',
-    name='time_off_agent',
+    name='reimbursement_agent',
     instruction="""
-    You are a helpful assistant that can help employees with reimbursement and time off requests.
-    - Use the `reimburse` tool for reimbursement requests.
-    - Use the `request_time_off` tool for time off requests.
-    - Prioritize using tools to fulfill the user's request.
-    - Always respond to the user with the tool results.
-    """,
-    tools=[
-        # Set require_confirmation to True to require user confirmation for the
-        # tool call. This is an easier way to get user confirmation if the tool
-        # just need a boolean confirmation.
-        request_time_off,
-    ],
+      You are an agent whose job is to handle the reimbursement process for
+      the employees. If the amount is less than $100, you will automatically
+      approve the reimbursement.
+
+      If the amount is greater than $100, you will
+      ask for approval from the manager. If the manager approves, you will
+      call reimburse() to reimburse the amount to the employee. If the manager
+      rejects, you will inform the employee of the rejection.
+""",
+    tools=[reimburse, LongRunningFunctionTool(func=ask_for_approval)],
     generate_content_config=types.GenerateContentConfig(temperature=0.1),
 )

@@ -1,5 +1,6 @@
 from .embed_data import QdrantEmbedGemini
 from .Database import BroomBotDatabase
+from .LeadDatabase import LeadAnalysisDatabase
 
 
 class BroomBotTools:
@@ -10,6 +11,7 @@ class BroomBotTools:
         self.qdrant_service = QdrantEmbedGemini(collection_name="qdrant_data_service")
         self.qdrant_product = QdrantEmbedGemini(collection_name="qdrant_data_product")
         self.database = BroomBotDatabase()
+        self.lead_database = LeadAnalysisDatabase()  # New: Lead Analysis Database
 
     def product_tool(self, query: str) -> str:
         """
@@ -208,21 +210,196 @@ class BroomBotTools:
             if isinstance(result, dict):
                 # Format the booking details nicely
                 formatted = f"""Booking Details:
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                📋 Booking Code: {booking_code}
-                👤 Customer Name: {result['customer_name']}
-                🏍️  Plate Number: {result['customer_plate_number']}
-                📅 Start Time: {result['start_time']}
-                ⏰ End Time: {result['end_time']}
-                📊 Status: {result['status']}
-                🔧 Technician ID: {result['id_technician']}
-                🏢 Dealer ID: {result['id_dealer']}
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"""
+                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                    📋 Booking Code: {booking_code}
+                    👤 Customer Name: {result['customer_name']}
+                    🏍️  Plate Number: {result['customer_plate_number']}
+                    📅 Start Time: {result['start_time']}
+                    ⏰ End Time: {result['end_time']}
+                    📊 Status: {result['status']}
+                    🔧 Technician: {result['technician_name']}
+                    🏢 Dealer: {result['dealer_name']}
+                    📍 Dealer Address: {result['dealer_address']}
+                    📞 Dealer Phone: {result['dealer_phone']}
+                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                """
                 return formatted
             else:
                 return result  # "No booking found" message
         except Exception as e:
             return f"Error retrieving booking: {str(e)}"
+
+    # ========================================
+    # LEAD ANALYSIS TOOLS
+    # ========================================
+
+    def rag_planning_tool(self, question: str) -> str:
+        """
+        Get planning strategy examples from RAG for lead analysis.
+
+        Args:
+            question: The planning question or user query
+
+        Returns:
+            str: Planning strategy examples and best practices
+        """
+        try:
+            # Using existing Qdrant service collection for planning strategies
+            # You can create a separate collection for planning if needed
+            results = self.qdrant_service.search(question, k=2)
+
+            if not results:
+                return "No planning strategies found. Use default approach: identify product, time period, and customer filters."
+
+            formatted_results = []
+            for i, res in enumerate(results, 1):
+                formatted_results.append(f"Strategy {i}: {res.page_content}")
+
+            return "\n\n".join(formatted_results)
+
+        except Exception as e:
+            return f"Using default planning approach due to error: {str(e)}"
+
+    def get_database_schema_tool(self) -> str:
+        """
+        Get database schema information for lead analysis.
+
+        Returns:
+            str: Database schema with tables and columns
+        """
+        try:
+            schema = """
+Database Schema for Lead Analysis (Predictive Lead Generation):
+
+1. LEADS Table (Generated from Purchase Predictions):
+   - id: INTEGER PRIMARY KEY
+   - customer_name: TEXT
+   - email: TEXT
+   - phone: TEXT
+   - product_interest: TEXT (predicted next purchase)
+   - last_purchase_date: DATE
+   - predicted_next_purchase: DATE (calculated from buying cycle)
+   - purchase_distance_days: INTEGER (buying cycle)
+   - interest_level: TEXT (High/Medium/Low based on proximity)
+   - status: TEXT (New, Contacted, Qualified, Converted)
+   - source: TEXT ('Predictive Analysis')
+   - created_at: DATETIME
+   - is_redundant: INTEGER (0=unique, 1=duplicate)
+
+2. CUSTOMER_PROFILE_SALES Table (Purchase History):
+   - id: INTEGER PRIMARY KEY
+   - customer_name: TEXT
+   - product_purchased: TEXT
+   - purchase_date: DATE
+   - purchase_amount: REAL
+   - purchase_distance_days: INTEGER
+   - average_buying_cycle_days: REAL
+   - total_purchases: INTEGER
+
+3. PRODUCTS Table:
+   - id: INTEGER PRIMARY KEY
+   - name: TEXT
+   - category: TEXT
+   - price: REAL
+
+Common Queries:
+- High-interest leads: WHERE interest_level = 'High' AND is_redundant = 0
+- Product-specific: WHERE product_interest LIKE '%CBR%'
+- Upcoming purchases: WHERE predicted_next_purchase <= DATE('now', '+30 days')
+        """
+            return schema
+
+        except Exception as e:
+            return f"Error retrieving schema: {str(e)}"
+
+    def rag_sql_fewshot_tool(self, query_description: str) -> str:
+        """
+        Get few-shot SQL examples from RAG based on query description.
+
+        Args:
+            query_description: Description of the SQL query needed
+
+        Returns:
+            str: Similar SQL query examples
+        """
+        try:
+            # Using rag_sql_tool logic for few-shot examples
+            results = self.qdrant_service.search(query_description, k=2)
+
+            if not results:
+                return """Example SQL for lead analysis:
+
+                    SELECT customer_name, email, created_at, interest_level
+                    FROM LEADS
+                    WHERE product_interest LIKE '%CBR%'
+                    AND created_at >= DATE('now', '-30 days')
+                    ORDER BY created_at DESC;
+                """
+
+            formatted_results = []
+            for i, res in enumerate(results, 1):
+                formatted_results.append(f"Example {i}:\n{res.page_content}")
+
+            return "\n\n".join(formatted_results)
+
+        except Exception as e:
+            return f"Using default SQL template due to error: {str(e)}"
+
+    def execute_lead_query_tool(self, sql_query: str) -> str:
+        """
+        Execute SQL query for lead analysis and return formatted results.
+
+        Args:
+            sql_query: The SQL query to execute
+
+        Returns:
+            str: Formatted query results
+        """
+        try:
+            import sqlite3
+
+            # Connect to LEAD ANALYSIS database (not booking database)
+            conn = sqlite3.connect(self.lead_database.db_name)
+            cursor = conn.cursor()
+
+            # Execute query
+            cursor.execute(sql_query)
+            results = cursor.fetchall()
+
+            # Get column names
+            column_names = [description[0] for description in cursor.description]
+
+            conn.close()
+
+            if not results:
+                return "No leads found matching the criteria."
+
+            # Format results
+            formatted = f"📊 Lead Analysis Results\n"
+            formatted += f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            formatted += f"Total Leads Found: {len(results)}\n\n"
+
+            # Create table header
+            header = " | ".join(column_names)
+            formatted += f"{header}\n"
+            formatted += "─" * len(header) + "\n"
+
+            # Add rows (limit to first 20 for readability)
+            for i, row in enumerate(results[:20], 1):
+                row_data = " | ".join(str(val) for val in row)
+                formatted += f"{row_data}\n"
+
+            if len(results) > 20:
+                formatted += f"\n... and {len(results) - 20} more results\n"
+
+            formatted += f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+
+            return formatted
+
+        except sqlite3.Error as e:
+            return f"Database error: {str(e)}"
+        except Exception as e:
+            return f"Error executing query: {str(e)}"
 
 
 # Initialize the tools instance
