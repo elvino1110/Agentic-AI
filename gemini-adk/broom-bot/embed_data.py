@@ -56,7 +56,7 @@ class QdrantEmbedGemini:
 
         abspath = os.path.dirname(os.path.abspath(__file__))
         service_data_path = os.path.join(abspath, "service_data", "kerusakan.csv")
-        loader = CSVLoader(file_path=service_data_path)
+        loader = CSVLoader(file_path=service_data_path) 
         data = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=40)
         docs = text_splitter.split_documents(data)
